@@ -33,9 +33,6 @@ func main() {
 
 	origListLen := len(depthList)
 	if origListLen == 0 {
-		// As the old confs wrongly capitalized this key. Would
-		// be fixed by WriteConf below, but we want the JSON
-		// schema to not flag this error.
 		fmt.Println("No data. How many measurements are larger than the previous measurement?", 0)
 		return
 	}
@@ -49,23 +46,14 @@ func main() {
 	//0 no prev
 	// 1 increased
 	largerThanPrev(depthList)
-
 	largerThanPrevSlidingWindow(depthList)
 
 }
 
 func largerThanPrev(depthList []int) {
-	origListLen := len(depthList)
+
 	var changesList []bool
-	changesList = make([]bool, origListLen, origListLen)
-	changesList[0] = false
-	for i := 1; i < origListLen; i++ {
-		if depthList[i] > depthList[i-1] {
-			changesList[i] = true
-		} else {
-			changesList[i] = false
-		}
-	}
+	setChangesList(depthList, &changesList)
 	fmt.Println("Answer: ",countBigger(changesList)) //1346
 }
 
@@ -74,8 +62,6 @@ func largerThanPrevSlidingWindow(depthList []int) {
 	origListLen := len(depthList)
 
 	var tripletSums []int
-	//	tripletSums = make([]int, slidingWindowLen, slidingWindowLen)
-
 	i_tripletSums := 0
 	for i_depthList := 0; i_depthList <= origListLen-3; i_depthList++ {
 		tripletSums = append(tripletSums, depthList[i_depthList]+depthList[i_depthList+1]+depthList[i_depthList+2])
@@ -83,23 +69,29 @@ func largerThanPrevSlidingWindow(depthList []int) {
 	}
 
 	var changesList []bool
-	slidingWindowLen := len(tripletSums)
-	changesList = make([]bool, slidingWindowLen, slidingWindowLen)
-	changesList[0] = false
-	for i := 1; i < slidingWindowLen; i++ {
-		if tripletSums[i] > tripletSums[i-1] {
-			changesList[i] = true
+	setChangesList(tripletSums, &changesList)
+	fmt.Println("Answer: ",countBigger(changesList)) //1346
+}
+
+func setChangesList(numbersList []int, changesList *[]bool ){
+	len := len(numbersList)
+	*changesList = append (*changesList, false)
+	for i := 1; i < len; i++ {
+		if numbersList[i] > numbersList[i-1] {
+			*changesList = append(*changesList,true)
 		} else {
-			changesList[i] = false
+			*changesList = append(*changesList,false)
 		}
 	}
-	fmt.Println("Answer: ",countBigger(changesList)) //1346
 }
 
 func countBigger(changesList []bool) (int){
 	var countBiggers []int
 
 	len := len(changesList)
+	if len == 0 {
+		return 0
+	}
 	countBiggers = make([]int, len, len)
 	countBiggers[0] = 0
 	for i := 1; i < len; i++ {
