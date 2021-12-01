@@ -67,23 +67,6 @@ func largerThanPrev(depthList []int) {
 		}
 	}
 	fmt.Println("Answer: ",countBigger(changesList)) //1346
-
-	//var countBiggers []int
-	//countBiggers = make([]int, origListLen, origListLen)
-	//countBiggers[0] = 0
-	//for i := 1; i < origListLen; i++ {
-	//	if changesList[i] {
-	//		countBiggers[i] = countBiggers[i-1] + 1
-	//	} else {
-	//		countBiggers[i] = countBiggers[i-1]
-	//	}
-	//}
-	//print results:
-	//for i := 1 ; i< origListLen; i++ {
-	//	fmt.Printf("%d) depth %d , changed %t, measurements larger than the previous %d\n",
-	//		i, depthList[i], changesList[i], countBiggers[i])
-	//}
-	//fmt.Println("Answer: ", countBiggers[origListLen-1]) //1301
 }
 
 func largerThanPrevSlidingWindow(depthList []int) {
@@ -111,22 +94,6 @@ func largerThanPrevSlidingWindow(depthList []int) {
 		}
 	}
 	fmt.Println("Answer: ",countBigger(changesList)) //1346
-
-	//var countBiggers []int
-	//countBiggers = make([]int, slidingWindowLen, slidingWindowLen)
-	//countBiggers[0] = 0
-	//for i := 1; i < slidingWindowLen; i++ {
-	//	if changesList[i] {
-	//		countBiggers[i] = countBiggers[i-1] + 1
-	//	} else {
-	//		countBiggers[i] = countBiggers[i-1]
-	//	}
-	//}
-	//for i := 1; i < slidingWindowLen; i++ {
-	//	fmt.Printf("%d) depth sum %d changed: %t, measurements larger than the previous %d\n",
-	//		i, tripletSums[i], changesList[i], countBiggers[i])
-	//}
-	//fmt.Println("Answer: ", countBiggers[slidingWindowLen-1]) //1346
 }
 
 func countBigger(changesList []bool) (int){
